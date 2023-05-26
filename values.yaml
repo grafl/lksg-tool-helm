@@ -1,3 +1,6 @@
+nameOverride: ""
+fullnameOverride: ""
+
 postgresql:
   ## @section Global parameters
   ## Please, note that this will override the parameters, including dependencies, configured to use the global value
@@ -1424,6 +1427,7 @@ postgresql:
       ##       summary: PostgreSQL replication is lagging by {{ "{{ $value }}" }} hour(s).
       ##
       rules: []
+
 pgadmin:
   # Default values for pgAdmin4.
   replicaCount: 1
@@ -1727,3 +1731,30 @@ pgadmin:
       runAsUser: 5051
       runAsGroup: 5051
       fsGroup: 5051
+
+lksg_tool:
+  namespace: lksg-tool
+  service:
+    type: ClusterIP
+    protocol: TCP
+  ingress:
+    ingressPathType: Prefix
+    className: nginx
+    hostName: lksg.tool.localdev.me
+    port: 80
+  apps:
+    backend:
+      image: lksg-tool-backend
+      tag: 0.0.1-SNAPSHOT
+      port: 8888
+      targetPort: 8080
+    irs:
+      image: lksg-tool-irs
+      tag: 0.0.1-SNAPSHOT
+      port: 9999
+      targetPort: 8080
+    frontend:
+      image: lksg-tool-frontend
+      tag: 0.0.1-SNAPSHOT
+      port: 80
+      targetPort: 8080

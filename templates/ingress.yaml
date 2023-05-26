@@ -1,18 +1,32 @@
+{{- $fullname := include "lksg-tool.fullname" . }}
+{{- $ingressPathType := $.Values.lksg_tool.ingress.ingressPathType  }}
 kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: lksg-tool-localhost
-  namespace: default
+  name: {{ include "lksg-tool.fullname" . }}-ingress
+  namespace: {{ .Values.lksg_tool.namespace }}
+  labels:
+    {{- include "lksg-tool.labels" . | nindent 4 }}
 spec:
-  ingressClassName: nginx
+  ingressClassName: {{ .Values.lksg_tool.ingress.className }}
   rules:
-    - host: lksg.tool.localdev.me
+    - host: {{ .Values.lksg_tool.ingress.hostName }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: lksg-tool
+                name: {{ include "lksg-tool.fullname" . }}-base-service
                 port:
                   number: 8080
+          {{- range $app_name, $app := .Values.lksg_tool.apps }}
+          - path: /{{ $app_name }}
+            pathType: {{ $ingressPathType }}
+            backend:
+              service:
+                # name: {{ $fullname }}-{{ $app_name }}-service
+                name: {{ $fullname }}-base-service
+                port:
+                  number: {{ $app.targetPort }}
+          {{- end }}

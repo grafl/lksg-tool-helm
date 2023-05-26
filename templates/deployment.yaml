@@ -1,19 +1,19 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: lksg-tool
-  namespace: default
+  name: {{ include "lksg-tool.fullname" . }}-deployment
+  namespace: {{ .Values.lksg_tool.namespace }}
   labels:
-    app: lksg-tool
+    {{- include "lksg-tool.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: lksg-tool
+      {{- include "lksg-tool.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: lksg-tool
+        {{- include "lksg-tool.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: lksg-tool-base

@@ -1,0 +1,14 @@
+apiVersion: v2
+description: lksg-tool chart
+name: lksg-tool
+version: 12.5.5
+appVersion: "7.0"
+dependencies:
+  - name: common
+    repository: oci://registry-1.docker.io/bitnamicharts
+    tags:
+      - bitnami-common
+    version: 2.x.x
+
+# https://github.com/rowanruseler/helm-charts
+# https://github.com/bitnami/charts/tree/main/bitnami/postgresql

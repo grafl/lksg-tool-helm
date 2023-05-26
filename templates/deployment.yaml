@@ -1,0 +1,23 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: lksg-tool
+  namespace: default
+  labels:
+    app: lksg-tool
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lksg-tool
+  template:
+    metadata:
+      labels:
+        app: lksg-tool
+    spec:
+      containers:
+        - name: lksg-tool-base
+          image: lksg-tool-base:0.0.1-SNAPSHOT
+          ports:
+            - containerPort: 8080
+              protocol: TCP

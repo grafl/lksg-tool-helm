@@ -5,6 +5,7 @@ metadata:
   namespace: {{ .Values.lksg_tool.namespace }}
   labels:
     {{- include "lksg-tool.labels" . | nindent 4 }}
+    application-base: {{ include "lksg-tool.fullname" . }}-base
 spec:
   type: {{ .Values.lksg_tool.service.type }}
   ports:
@@ -23,6 +24,7 @@ metadata:
   namespace: {{ .Values.lksg_tool.namespace }}
   labels:
     {{- include "lksg-tool.labels" . | nindent 4 }}
+    application-backend: {{ include "lksg-tool.fullname" . }}-backend
 spec:
   type: {{ .Values.lksg_tool.service.type }}
   ports:
@@ -41,11 +43,12 @@ metadata:
   namespace: {{ .Values.lksg_tool.namespace }}
   labels:
     {{- include "lksg-tool.labels" . | nindent 4 }}
+    application-irs: {{ include "lksg-tool.fullname" . }}-irs
 spec:
   type: {{ .Values.lksg_tool.service.type }}
   ports:
     - port: {{ .Values.lksg_tool.apps.irs.port }}
-      targetPort: {{ .Values.lksg_tool.apps.irs.targetPort }} # http
+      targetPort: {{ .Values.lksg_tool.apps.irs.targetPort }}
       protocol: {{ .Values.lksg_tool.service.protocol }}
       name: http
   selector:
@@ -59,11 +62,12 @@ metadata:
   namespace: {{ .Values.lksg_tool.namespace }}
   labels:
     {{- include "lksg-tool.labels" . | nindent 4 }}
+    application-frontend: {{ include "lksg-tool.fullname" . }}-frontend
 spec:
   type: {{ .Values.lksg_tool.service.type }}
   ports:
     - port: {{ .Values.lksg_tool.apps.frontend.port }}
-      targetPort: {{ .Values.lksg_tool.apps.frontend.targetPort }} # http
+      targetPort: {{ .Values.lksg_tool.apps.frontend.targetPort }}
       protocol: {{ .Values.lksg_tool.service.protocol }}
       name: http
   selector:

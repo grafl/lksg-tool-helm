@@ -21,3 +21,12 @@ spec:
           ports:
             - containerPort: 8080
               protocol: TCP
+        {{- range $app_name, $app := .Values.lksg_tool.apps }}
+        {{- if or (hasPrefix "irs" $app_name) (hasPrefix "backend" $app_name) }}
+        - name: lksg-tool-{{ $app_name }}
+          image: lksg-tool-{{ $app_name }}:{{ $app.tag }}
+          ports:
+            - containerPort: {{ $app.targetPort }}
+              protocol: TCP
+        {{- end }}
+        {{- end }}

@@ -2,5 +2,11 @@ dependencies:
 - name: common
   repository: oci://registry-1.docker.io/bitnamicharts
   version: 2.4.0
-digest: sha256:8c1a5dc923412d11d4d841420494b499cb707305c8b9f87f45ea1a8bf3172cb3
-generated: "2023-05-26T09:36:56.9923371+03:00"
+- name: postgresql
+  repository: oci://registry-1.docker.io/bitnamicharts
+  version: 12.5.5
+- name: pgadmin4
+  repository: https://helm.runix.net
+  version: 1.15.2
+digest: sha256:726cbbbbbda28f089976bd9af4fe132ba305a2927f6c6ee7ef925d7dbacf4730
+generated: "2023-05-26T20:30:31.737191+03:00"

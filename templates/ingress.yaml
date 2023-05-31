@@ -18,24 +18,13 @@ spec:
     - host: {{ .Values.lksg_tool.ingress.hostName }}
       http:
         paths:
-          #- path: /
-          #  pathType: Prefix
-          #  backend:
-          #    service:
-          #      name: {{ include "lksg-tool.fullname" . }}-base-service
-          #      port:
-          #        number: 8080
           {{- range $app_name, $app := .Values.lksg_tool.apps }}
-          {{- if eq $app_name "pgadmin4" }}
-          - path: /
-          {{- else }}
           - path: {{ $app.path }}
-          {{- end }}
             pathType: {{ $ingressPathType }}
             backend:
               service:
                 {{- if eq $app_name "pgadmin4" }}
-                name: {{ $chartName }}-{{ $app_name }}
+                name: lksg-tool-pgadmin4
                 {{- else }}
                 name: {{ $fullName }}-{{ $app_name }}-service
                 {{- end }}

@@ -1747,7 +1747,6 @@ lksg_tool:
     protocol: TCP
   ingress:
     ingressPathType: Prefix
-    # ingressPathType: ImplementationSpecific
     className: nginx
     hostName: lksg.tool.localdev.me
     port: 80
@@ -1767,12 +1766,12 @@ lksg_tool:
     frontend:
       image: lksg-tool-frontend
       tag: 0.0.1-SNAPSHOT
-      path: /frontend
-      port: 80
-      targetPort: 8080
-    pgadmin4:
-      image: ""
-      tag: ""
-      path: ""
-      port: 5050
-      targetPort: 80
+      path: /
+      port: 88
+      targetPort: 88
+#    pgadmin4:
+#      image: ""
+#      tag: ""
+#      path: "/browser/"
+#      port: 80
+#      targetPort: 80

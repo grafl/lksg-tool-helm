@@ -16,13 +16,8 @@ spec:
         {{- include "lksg-tool.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - name: lksg-tool-base
-          image: lksg-tool-base:0.0.1-SNAPSHOT
-          ports:
-            - containerPort: 8080
-              protocol: TCP
         {{- range $app_name, $app := .Values.lksg_tool.apps }}
-        {{- if or (hasPrefix "irs" $app_name) (hasPrefix "backend" $app_name) }}
+        {{- if or (hasPrefix "irs" $app_name) (hasPrefix "backend" $app_name) (hasPrefix "frontend" $app_name) }}
         - name: lksg-tool-{{ $app_name }}
           image: lksg-tool-{{ $app_name }}:{{ $app.tag }}
           ports:

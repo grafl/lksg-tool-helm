@@ -1757,12 +1757,6 @@ lksg_tool:
       path: /api
       port: 8888
       targetPort: 8888
-    irs:
-      image: lksg-tool-irs
-      tag: 0.0.1-SNAPSHOT
-      path: /ess
-      port: 9999
-      targetPort: 9999
     frontend:
       image: lksg-tool-frontend
       tag: 0.0.1-SNAPSHOT

@@ -1,27 +1,35 @@
+{{- $chartName := .Chart.Name }}
+{{- $fullName := include "lksg-tool.fullname" . }}
+{{- $nameSpace := .Values.lksg_tool.namespace }}
+{{- $labels := include "lksg-tool.labels" .}}
+{{- $selectorLabels := include "lksg-tool.selectorLabels" . }}
+
+{{- range $app_name, $app := .Values.lksg_tool.apps }}
+---
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: {{ include "lksg-tool.fullname" . }}-deployment
-  namespace: {{ .Values.lksg_tool.namespace }}
+  name: {{ $fullName }}-{{ $app_name }}-deployment
+  namespace: {{ $nameSpace }}
   labels:
-    {{- include "lksg-tool.labels" . | nindent 4 }}
+    {{- $labels | nindent 4 }}
 spec:
   replicas: 1
+  hostname: lksg-tool-{{ $app_name }}
   selector:
     matchLabels:
-      {{- include "lksg-tool.selectorLabels" . | nindent 6 }}
+      {{- $selectorLabels | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "lksg-tool.selectorLabels" . | nindent 8 }}
+        {{- $selectorLabels | nindent 8 }}
     spec:
       containers:
-        {{- range $app_name, $app := .Values.lksg_tool.apps }}
-        {{- if or (hasPrefix "irs" $app_name) (hasPrefix "backend" $app_name) (hasPrefix "frontend" $app_name) }}
+        {{- if or (hasPrefix "backend" $app_name) (hasPrefix "frontend" $app_name) }}
         - name: lksg-tool-{{ $app_name }}
           image: lksg-tool-{{ $app_name }}:{{ $app.tag }}
           ports:
             - containerPort: {{ $app.targetPort }}
               protocol: TCP
         {{- end }}
-        {{- end }}
+{{- end }}

@@ -1,0 +1,27 @@
+nameOverride: ""
+fullnameOverride: ""
+
+lksg_tool:
+  namespace: lksg-tool
+  imagePullSecrets: lksg-tool-docker-secrets
+  service:
+    type: ClusterIP
+    protocol: TCP
+  ingress:
+    ingressPathType: Prefix
+    className: nginx
+    hostName: lksg.tool.gxfs.gx4fm.org
+    port: 80
+  apps:
+    backend:
+      image: grafl/lksg-tool-backend
+      tag: latest
+      path: /api
+      port: 8888
+      targetPort: 8888
+    frontend:
+      image: grafl/lksg-tool-frontend
+      tag: latest
+      path: /
+      port: 88
+      targetPort: 88

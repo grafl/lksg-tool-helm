@@ -23,11 +23,7 @@ spec:
             pathType: {{ $ingressPathType }}
             backend:
               service:
-                {{- if eq $app_name "pgadmin4" }}
-                name: lksg-tool-pgadmin4
-                {{- else }}
                 name: {{ $fullName }}-{{ $app_name }}-service
-                {{- end }}
                 port:
                   number: {{ $app.targetPort }}
           {{- end }}

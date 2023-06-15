@@ -5,7 +5,6 @@ metadata:
   namespace: {{ .Values.lksg_tool.namespace }}
   labels:
     {{- include "lksg-tool.labels" . | nindent 4 }}
-    application-backend: {{ include "lksg-tool.fullname" . }}-backend
 spec:
   type: {{ .Values.lksg_tool.service.type }}
   ports:
@@ -15,6 +14,7 @@ spec:
       name: http
   selector:
     {{- include "lksg-tool.selectorLabels" . | nindent 4 }}
+    application-backend: {{ include "lksg-tool.fullname" . }}-backend
 
 ---
 apiVersion: v1
@@ -24,7 +24,6 @@ metadata:
   namespace: {{ .Values.lksg_tool.namespace }}
   labels:
     {{- include "lksg-tool.labels" . | nindent 4 }}
-    application-frontend: {{ include "lksg-tool.fullname" . }}-frontend
 spec:
   type: {{ .Values.lksg_tool.service.type }}
   ports:
@@ -34,3 +33,4 @@ spec:
       name: http
   selector:
     {{- include "lksg-tool.selectorLabels" . | nindent 4 }}
+    application-frontend: {{ include "lksg-tool.fullname" . }}-frontend

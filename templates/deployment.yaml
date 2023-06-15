@@ -3,6 +3,7 @@
 {{- $nameSpace := .Values.lksg_tool.namespace }}
 {{- $labels := include "lksg-tool.labels" .}}
 {{- $selectorLabels := include "lksg-tool.selectorLabels" . }}
+{{- $imagePullSecrets := .Values.lksg_tool.imagePullSecrets }}
 
 {{- range $app_name, $app := .Values.lksg_tool.apps }}
 ---
@@ -15,21 +16,26 @@ metadata:
     {{- $labels | nindent 4 }}
 spec:
   replicas: 1
-  hostname: lksg-tool-{{ $app_name }}
   selector:
     matchLabels:
       {{- $selectorLabels | nindent 6 }}
+      application-{{ $app_name }}: {{ $fullName }}-{{ $app_name }}
   template:
     metadata:
       labels:
         {{- $selectorLabels | nindent 8 }}
+        application-{{ $app_name }}: {{ $fullName }}-{{ $app_name }}
     spec:
       containers:
-        {{- if or (hasPrefix "backend" $app_name) (hasPrefix "frontend" $app_name) }}
-        - name: lksg-tool-{{ $app_name }}
-          image: lksg-tool-{{ $app_name }}:{{ $app.tag }}
-          ports:
-            - containerPort: {{ $app.targetPort }}
-              protocol: TCP
-        {{- end }}
+      {{- if or (hasPrefix "backend" $app_name) (hasPrefix "frontend" $app_name) }}
+      - name: lksg-tool-{{ $app_name }}
+        image: {{ $app.image }}:{{ $app.tag }}
+        ports:
+          - containerPort: {{ $app.targetPort }}
+            protocol: TCP
+      {{- if $imagePullSecrets }}
+      imagePullSecrets:
+      - name: {{ $imagePullSecrets }}
+      {{- end -}}
+      {{- end }}
 {{- end }}

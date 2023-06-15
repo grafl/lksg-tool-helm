@@ -1742,25 +1742,24 @@ pgadmin4:
 
 lksg_tool:
   namespace: lksg-tool
-  imagePullSecrets: lksg-tool-docker-secrets
   service:
     type: ClusterIP
     protocol: TCP
   ingress:
     ingressPathType: Prefix
     className: nginx
-    hostName: lksg.tool.gxfs.gx4fm.org
+    hostName: lksg.tool.localdev.me
     port: 80
   apps:
     backend:
-      image: grafl/lksg-tool-backend
-      tag: latest
+      image: lksg-tool-backend
+      tag: 0.0.1-SNAPSHOT
       path: /api
       port: 8888
       targetPort: 8888
     frontend:
-      image: grafl/lksg-tool-frontend
-      tag: latest
+      image: lksg-tool-frontend
+      tag: 0.0.1-SNAPSHOT
       path: /
       port: 88
       targetPort: 88

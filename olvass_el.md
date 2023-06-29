@@ -10,15 +10,13 @@ kubectl delete -n lksg-tool persistentvolumeclaim data-lksg-tool-postgresql-0
 
 lksg-tool-postgresql.lksg-tool.svc.cluster.local
 
+k exec busybox -- nslookup kubernetes.default
 
 k -n lksg-tool get pods -o=custom-columns=NAME:.metadata.name,IP:.status.podIP
 
 
 helm -n lksg-tool uninstall lksg-tool
+
 kubectl delete -n lksg-tool persistentvolumeclaim data-lksg-tool-postgresql-0
-helm -n lksg-tool install lksg-tool --set postgresql.auth.password=lksg_tool --set postgresql.auth.username=lksg_tool --set postgresql.auth.database=lksg_tool .
 
-
-
-
-k exec busybox -- nslookup kubernetes.default
+helm -n lksg-tool install lksg-tool --values values-ddk.yaml --set postgresql.primary.persistence.size=1Gi --set postgresql.auth.password=lksg_tool --set postgresql.auth.username=lksg_tool --set postgresql.auth.database=lksg_tool .

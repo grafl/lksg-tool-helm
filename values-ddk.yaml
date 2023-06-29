@@ -8,21 +8,20 @@ lksg_tool:
     type: ClusterIP
     protocol: TCP
   ingress:
-
     ingressPathType: Prefix
     className: nginx
     hostName: lksg.tool.localdev.me
     port: 80
   apps:
     backend:
-      image: lksg-tool-backend
-      tag: 1.0.0-SNAPSHOT
+      image: grafl/lksg-tool-backend
+      tag: latest
       path: /api
       port: 8888
       targetPort: 8888
     frontend:
-      image: lksg-tool-frontend
-      tag: 1.0.0-SNAPSHOT
+      image: grafl/lksg-tool-frontend
+      tag: latest
       path: /
       port: 88
       targetPort: 88
